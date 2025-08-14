@@ -1,27 +1,25 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string>
 #include <windows.h>
-
 using namespace std;
-void limpa_tela(){
-    system("cls");
-}
+
+// ANSI para cores no terminal (Usando com o print(NOME DA COR))
+#define VERMELHO "\033[1;31m"
+#define VERDE "\033[1;32m"
+#define RESET "\033[0m"
+
+#include "funcoes.h"
 
 int main(){
-    int opcao = 0;
-    
-    
-    limpa_tela();
-    cout << "Bem-vindo ao Jogo da Forca!" << endl;
-    cout << "Escolha uma opcao:" << endl;
-    cout << "1. Jogar" << endl;
-    cout << "2. Jogar em Dupla" << endl;
-    cout << "3. Sobre" << endl;
-    cout << "4. Sair" << endl; 
-    
-    
+    SetConsoleOutputCP(65001); //Substitui o setlocale e força o terminal a sair fonte utf-8
+    SetConsoleCP(CP_UTF8);
+
+    srand( (unsigned)time(NULL));
+
+    menu_inicial();
 
     return 0;   
 }

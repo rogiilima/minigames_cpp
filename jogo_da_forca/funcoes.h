@@ -20,8 +20,13 @@ string hide_word(string word, int len_word){
     return hidden_word;
 }
 // Exibe o status do jogo, tipo menu e algumas outras coisas
-void game_status(string hidden_word, int remaining_attempts ){
+void game_status(string hidden_word, int remaining_attempts, string letters_attempts){
     cout << "Palavra: " << hidden_word << " Tentativas restantes: " << remaining_attempts << endl;
+    cout << "Letras Digitadas: " << endl;
+    for (int i = 0; i < letters_attempts.size(); i++){
+        cout << letters_attempts[i] << " - ";
+    }
+    cout << "\n";
 }
 
 
@@ -34,30 +39,44 @@ void simple_game(){
     string hidden_word = hide_word(word, len_word); // pegando a palavra escondida
     
     int cont = 0, attempts = 0, max_attemps = 7; //Variáveis "globais"
-    char letter;
+    char letter; 
+    string letters_attempts;
+    bool letter_typed = false;
 
 
     while (word != hidden_word && attempts <= max_attemps){
         clear_terminal();
-        game_status(hidden_word,(max_attemps - attempts));
+        game_status(hidden_word,(max_attemps - attempts), letters_attempts);
         
         cout << "Digite uma letra:" << endl;
         cin >> letter;
         fflush(stdin);
+        letters_attempts += letter;
+
+        // TA DANDO PAU NESSA LOGICCA AQUI CONSERTAR DEPOIS
+
+        // for(cont = 0; cont < attempts; cont++){
+        //     if( letters_attempts[cont] == letter ){
+        //         letter_typed = true;
+        //         cout << "Letra já tentada! Tente novente." << endl;
+        //         Sleep(1250);
+        //         continue;
+        //     }
+        // }
+
         //Algoritmo de complexidade O(n) para descobrir se a letra está na palavra
         for(cont = 0; cont < len_word; cont++){
             if( tolower(word[cont]) == letter){
-                hidden_word[cont] = word[cont];
+            hidden_word[cont] = word[cont];
+            attempts ++;
             }
         }
-
-        attempts ++;
     }
     
     if( word == hidden_word){
-        cout << "Parabéns você venceu" << endl;
+    cout << "Parabéns você venceu" << endl;
     }else{
-        cout << "Fim de jogo. Você não ganhou :(" << endl;
+    cout << "Fim de jogo. Você não ganhou :(" << endl;
     }
     
 

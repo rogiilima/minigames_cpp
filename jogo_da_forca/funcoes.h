@@ -14,7 +14,7 @@ string hide_word(string word, int len_word){
     int cont = 0;
     string hidden_word;
     while (cont < len_word){
-        hidden_word += " _";
+        hidden_word += "_";
         cont++;
     }
     return hidden_word;
@@ -32,24 +32,37 @@ void simple_game(){
     int len_word = word.size(); // Pegando o tamanho da palvra
 
     string hidden_word = hide_word(word, len_word); // pegando a palavra escondida
-
-    int attempts = 0, max_attemps = 7;
-    char letter;
     
-    while (attempts <= max_attemps){
+    int cont = 0, attempts = 0, max_attemps = 7; //Variáveis "globais"
+    char letter;
+
+
+    while (word != hidden_word && attempts <= max_attemps){
         clear_terminal();
         game_status(hidden_word,(max_attemps - attempts));
         
         cout << "Digite uma letra:" << endl;
         cin >> letter;
         fflush(stdin);
+        //Algoritmo de complexidade O(n) para descobrir se a letra está na palavra
+        for(cont = 0; cont < len_word; cont++){
+            if( tolower(word[cont]) == letter){
+                hidden_word[cont] = word[cont];
+            }
+        }
+
         attempts ++;
+    }
+    
+    if( word == hidden_word){
+        cout << "Parabéns você venceu" << endl;
+    }else{
+        cout << "Fim de jogo. Você não ganhou :(" << endl;
     }
     
 
 
-
-    cout << hidden_word << endl;
+    cout << "A palavra era: " << word << endl;
 
     Sleep(5000);
 }

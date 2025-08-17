@@ -20,9 +20,10 @@ string hide_word(string word, int len_word){
     return hidden_word;
 }
 // Exibe o status do jogo, tipo menu e algumas outras coisas
-void game_status(string hidden_word, int remaining_attempts, string letters_attempts){
+void game_status(string hidden_word, int remaining_attempts, string letters_attempts, string feedback){
+    cout << feedback << endl;
     cout << "Palavra: " << hidden_word << " Tentativas restantes: " << remaining_attempts << endl;
-    cout << "Letras Digitadas: " << endl;
+    cout << "Letras Digitadas: ";
     for (int i = 0; i < letters_attempts.size(); i++){
         cout << letters_attempts[i] << " - ";
     }
@@ -31,8 +32,6 @@ void game_status(string hidden_word, int remaining_attempts, string letters_atte
 
 
 void simple_game(){
-    
-    
     string word = random_word();
     int len_word = word.size(); // Pegando o tamanho da palvra
 
@@ -40,36 +39,49 @@ void simple_game(){
     
     int cont = 0, attempts = 0, max_attemps = 7; //Variáveis "globais"
     char letter; 
-    string letters_attempts;
-    bool letter_typed = false;
-
-
+    string letters_attempts, feedback, risked_word; //Feedback retorna uma mensagem do jogo ao jogador
+    
+    
     while (word != hidden_word && attempts <= max_attemps){
+        bool letter_typed = false;
         clear_terminal();
-        game_status(hidden_word,(max_attemps - attempts), letters_attempts);
+        game_status(hidden_word,(max_attemps - attempts), letters_attempts, feedback);
+        feedback = "";
         
-        cout << "Digite uma letra:" << endl;
+        cout << "Digite uma letra ou (digite: 1) para arriscar a palavra:" << endl;
         cin >> letter;
         fflush(stdin);
-        letters_attempts += letter;
 
-        // TA DANDO PAU NESSA LOGICCA AQUI CONSERTAR DEPOIS
-
-        // for(cont = 0; cont < attempts; cont++){
-        //     if( letters_attempts[cont] == letter ){
-        //         letter_typed = true;
-        //         cout << "Letra já tentada! Tente novente." << endl;
-        //         Sleep(1250);
-        //         continue;
-        //     }
-        // }
-
-        //Algoritmo de complexidade O(n) para descobrir se a letra está na palavra
-        for(cont = 0; cont < len_word; cont++){
-            if( tolower(word[cont]) == letter){
-            hidden_word[cont] = word[cont];
-            attempts ++;
+        if (letter == '1')
+        {
+            cout << "Qual palavra você acha que é?" << endl;
+            cin >> risked_word;
+            if (risked_word == word){
+                hidden_word == risked_word;
+            }else{
+                attempts = max_attemps;    
             }
+        }
+        // NOTA: não faz diferença em termos de tempo real para o computador verificar esse array, então colocar um if para ele pular isso tudo serio meio inutil
+        // Verifica se a letra o usuario digitou é está nas tentativas anteriores
+        for(cont = 0; cont < attempts; cont++){
+            if( letters_attempts[cont] == letter ){
+                letter_typed = true;
+                feedback = "Você já tentou essa letra! Tente novente...";
+                break;
+            }
+        }
+        
+        if (letter_typed == false){
+            letters_attempts += letter;
+            //Algoritmo de complexidade O(n) para descobrir se a letra está na palavra
+            for(cont = 0; cont < len_word; cont++){
+                if( tolower(word[cont]) == letter){
+                hidden_word[cont] = word[cont];
+                feedback = "Parabéns! Letra certa...Continue";
+                }
+            }
+        attempts ++;
         }
     }
     
@@ -78,9 +90,6 @@ void simple_game(){
     }else{
     cout << "Fim de jogo. Você não ganhou :(" << endl;
     }
-    
-
-
     cout << "A palavra era: " << word << endl;
 
     Sleep(5000);

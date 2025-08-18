@@ -4,6 +4,7 @@
 #include <time.h>
 #include <string>
 #include <windows.h>
+#include <locale.h>
 using namespace std;
 
 // ANSI para cores no terminal (Usando com o print(NOME DA COR))
@@ -20,6 +21,5 @@ int main(){
     srand( (unsigned)time(NULL));
 
     menu_inicial();
-
     return 0;   
 }

@@ -3,7 +3,7 @@ void clear_terminal(){
 }
 
 string random_word(){
-    string words[3] = {"Abacaxi", "Manga", "Morango"};
+    string words[4] = {"Abacaxi", "Manga", "Morango"};
     int random_index = (rand() % 3);
     return words[random_index];
     
@@ -33,6 +33,7 @@ void game_status(string hidden_word, int remaining_attempts, string letters_atte
 
 void simple_game(){
     string word = random_word();
+    for (auto &c : word) c = std::tolower(static_cast<unsigned char>(c)); // converte a string word para minúscula
     int len_word = word.size(); // Pegando o tamanho da palvra
 
     string hidden_word = hide_word(word, len_word); // pegando a palavra escondida
@@ -51,18 +52,21 @@ void simple_game(){
         cout << "Digite uma letra ou (digite: 1) para arriscar a palavra:" << endl;
         cin >> letter;
         fflush(stdin);
+        letter = tolower(letter); // Transforma a entrada em minusculo.
 
         if (letter == '1')
         {
             cout << "Qual palavra você acha que é?" << endl;
             cin >> risked_word;
+            for (auto &c : risked_word) c = std::tolower(static_cast<unsigned char>(c)); // converte a string para minúscula
+            
             if (risked_word == word){
-                hidden_word == risked_word;
+                hidden_word = risked_word; //Regra para acabar o jogo
             }else{
                 attempts = max_attemps;    
             }
         }
-        // NOTA: não faz diferença em termos de tempo real para o computador verificar esse array, então colocar um if para ele pular isso tudo serio meio inutil
+        // NOTA: não faz diferença em termos computacionais verificar esse array, então colocar um if para ele pular isso tudo serio meio inutil
         // Verifica se a letra o usuario digitou é está nas tentativas anteriores
         for(cont = 0; cont < attempts; cont++){
             if( letters_attempts[cont] == letter ){
@@ -92,7 +96,7 @@ void simple_game(){
     }
     cout << "A palavra era: " << word << endl;
 
-    Sleep(5000);
+    Sleep(2000);//Tempo após o final do jogo
 }
 
 

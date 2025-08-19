@@ -4,13 +4,14 @@
 #include <time.h>
 #include <string>
 #include <windows.h>
-#include <locale.h>
+#include <ctype.h>
+
 using namespace std;
 
 // ANSI para cores no terminal (Usando com o print(NOME DA COR))
 #define VERMELHO "\033[1;31m"
 #define VERDE "\033[1;32m"
-#define RESET "\033[0m"
+#define BRANCO "\033[0m"
 
 #include "funcoes.h"
 

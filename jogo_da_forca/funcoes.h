@@ -2,6 +2,12 @@ void clear_terminal(){
     system("cls");
 }
 
+void about_game(){
+    clear_terminal();
+    cout << "Jogo desenvolvido por Igor, 2025" << endl;
+    system("pause");
+}
+
 string random_word(){
     string words[4] = {"Abacaxi", "Manga", "Morango"};
     int random_index = (rand() % 3);
@@ -21,9 +27,10 @@ string hide_word(string word, int len_word){
 }
 // Exibe o status do jogo, tipo menu e algumas outras coisas
 void game_status(string hidden_word, int remaining_attempts, string letters_attempts, string feedback){
-    cout << feedback << endl;
+    cout << feedback << endl;printf(BRANCO);
     cout << "Palavra: " << hidden_word << " Tentativas restantes: " << remaining_attempts << endl;
     cout << "Letras Digitadas: ";
+    printf("\n\033[1;33m");cout << "ATENÇÃO: Essa versão não aceita acentos(~,´,ç) como entrada" << endl;printf(BRANCO);
     for (int i = 0; i < letters_attempts.size(); i++){
         cout << letters_attempts[i] << " - ";
     }
@@ -71,7 +78,7 @@ void simple_game(){
         for(cont = 0; cont < attempts; cont++){
             if( letters_attempts[cont] == letter ){
                 letter_typed = true;
-                feedback = "Você já tentou essa letra! Tente novente...";
+                feedback = "Você já tentou essa letra! Tente novente...";printf(VERMELHO);
                 break;
             }
         }
@@ -82,7 +89,7 @@ void simple_game(){
             for(cont = 0; cont < len_word; cont++){
                 if( tolower(word[cont]) == letter){
                 hidden_word[cont] = word[cont];
-                feedback = "Parabéns! Letra certa...Continue";
+                feedback = "Parabéns! Letra certa...Continue";printf(VERDE);
                 }
             }
         attempts ++;
@@ -106,18 +113,28 @@ void menu_inicial(){
     do{
         clear_terminal();
         cout << "Bem-vindo ao Jogo da Forca!" << endl;
-        cout << "1. Jogar" << endl;
+        printf(VERDE);cout << "1. Jogar" << endl;printf(BRANCO);
         cout << "2. Sobre" << endl;
-        cout << "3. Sair" << endl; 
+        printf(VERMELHO); cout << "3. Sair" << endl; printf(BRANCO); 
         cout << "Escolha uma opcao:";
         cin >> option;
         fflush(stdin);
-    
+
+        if (cin.fail()) {
+            cin.clear(); // limpa flag de erro
+            //cin.ignore(numeric_limits<streamsize>::max(), '\n'); // descarta entrada inválida
+            fflush(stdin);
+            cout << "Entrada inválida! Digite apenas números inteiros.\n";
+            Sleep(1200);
+            continue; // volta para o loop sem cair no switch
+        }
+        
         switch (option){
         case 1:
             simple_game();
             break;
         case 2:
+            about_game();
             break;
         case 3:
             clear_terminal(); 
@@ -130,6 +147,7 @@ void menu_inicial(){
             clear_terminal();
             break;
         }
+    
     } while (option != 3 );
     
 }

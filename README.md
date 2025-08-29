@@ -1,7 +1,7 @@
 # C++ Game Projects – Study & Learning
 
 This folder contains a collection of simple games developed in **C++** as part of a learning and practice process.  
-The main goal is to explore and apply programming concepts while building fun and interactive projects.
+The main objective is to explore and apply programming concepts while building fun and interactive projects.
 
 Each game serves as a practical exercise, covering topics such as:
 - Basic C++ syntax and structure
